@@ -19,12 +19,23 @@ public class CarController {
     private final CarClient carClient;
 
     @GetMapping("cars")
-    public void getCars() {
-        List<CarDto> cars = carClient.getCars();
+    public List<CarDto> getCars() {
+        return carClient.getCars();
+    }
 
-        System.out.println(cars);
+    @GetMapping("brands")
+    public List<String> getBrands(){
+        return carClient.getBrands();
+    }
 
+    @GetMapping("years")
+    public List<String> getYears(){
+        return carClient.getYears();
+    }
 
+    @GetMapping("types")
+    public List<String> getTypes(){
+        return carClient.getTypes();
     }
 
 }
