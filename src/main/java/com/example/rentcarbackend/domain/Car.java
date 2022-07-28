@@ -6,8 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Car {
+
     private int year;
+
     private String brand;
+
     private String model;
+
     private String type;
 }
