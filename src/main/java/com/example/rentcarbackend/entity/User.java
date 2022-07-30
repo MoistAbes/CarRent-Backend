@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +28,20 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
+    @OneToMany(
+            targetEntity = Rent.class,
+            mappedBy = "user",
+            fetch = FetchType.LAZY
+    )
+    private List<Rent> rents = new ArrayList<>();
+
     public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public User(Long id, String name, String surname) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
     }
