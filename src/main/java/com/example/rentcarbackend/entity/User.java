@@ -28,6 +28,14 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
+    @NotNull
+    @Column(name = "username")
+    private String username;
+
+    @NotNull
+    @Column(name = "password")
+    private String password;
+
     @OneToMany(
             targetEntity = Rent.class,
             mappedBy = "user",
@@ -40,9 +48,11 @@ public class User {
         this.surname = surname;
     }
 
-    public User(Long id, String name, String surname) {
+    public User(Long id, String name, String surname, String username, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.username = username;
+        this.password = password;
     }
 }

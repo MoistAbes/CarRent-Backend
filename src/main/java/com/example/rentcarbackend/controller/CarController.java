@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/car")
+@RequestMapping("v1/cars")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class CarController {
 
     private final CarClient carClient;
 
-    @GetMapping("cars")
+    @GetMapping()
     public List<CarDto> getCars() {
         return carClient.getCars();
     }

@@ -24,6 +24,14 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
+
+        //chwilowe
+        System.out.println("USER DTO");
+        System.out.println("id: " + userDto.getId());
+        System.out.println("name: " + userDto.getName());
+        System.out.println("lastname: " + userDto.getSurname());
+
+
         User user = mapper.mapToUser(userDto);
         service.saveUser(user);
         return ResponseEntity.ok().build();
