@@ -2,7 +2,6 @@ package com.example.rentcarbackend.controller;
 
 import com.example.rentcarbackend.client.WebSearchClient;
 import com.example.rentcarbackend.domain.CarReviewDto;
-import com.example.rentcarbackend.domain.WebValueDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,5 @@ public class WebSearchController {
     public CarReviewDto getSearch(@PathVariable String search){
         return webSearchClient.getReview(search);
     }
-
-
 
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDbService {
 
+
     private final UserRepository repository;
 
     public List<User> getAllUsers() {
@@ -25,5 +26,17 @@ public class UserDbService {
     public User saveUser(final User user) {
         return repository.save(user);
     }
+
+    public User getAuthentication(String username, String password){
+        List<User> userList = repository.findAll();
+        for (User user : userList){
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)){
+                return user;
+            }
+        }
+
+        return new User();
+    }
+
 
 }

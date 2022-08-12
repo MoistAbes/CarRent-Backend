@@ -43,6 +43,13 @@ public class User {
     )
     private List<Rent> rents = new ArrayList<>();
 
+    @OneToMany(
+            targetEntity = LoginInfo.class,
+            mappedBy = "user",
+            fetch = FetchType.EAGER
+    )
+    private List<LoginInfo> loginInfos = new ArrayList<>();
+
     public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
@@ -54,5 +61,18 @@ public class User {
         this.surname = surname;
         this.username = username;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", rents=" + rents +
+                ", loginInfos=" + loginInfos +
+                '}';
     }
 }

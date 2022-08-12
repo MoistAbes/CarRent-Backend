@@ -1,6 +1,7 @@
 package com.example.rentcarbackend.repository;
 
 import com.example.rentcarbackend.entity.Rent;
+import com.example.rentcarbackend.entity.RentedCar;
 import com.example.rentcarbackend.entity.User;
 import com.example.rentcarbackend.service.RentDbService;
 import com.example.rentcarbackend.service.UserDbService;
@@ -21,25 +22,26 @@ public class RentRepositoryTestSuite {
     @Autowired
     RentRepository rentRepository;
 
+    @Autowired
+    RentedCarRepository rentedCarRepository;
+
     @Test
     public void testShouldSaveRent(){
 
         //Given
         User user = new User("test name 1", "test surname 1");
+        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, 1235, "test brand", "test model", "test type",rentFrom, rentTo);
+        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
 
         //When
         User savedUser = userRepository.save(user);
+        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
         Rent savedRent = rentRepository.save(rent);
 
         //Then
-        assertEquals(1235, savedRent.getYear());
-        assertEquals("test brand", savedRent.getBrand());
-        assertEquals("test model", savedRent.getModel());
-        assertEquals("test type", savedRent.getType());
 
         assertEquals(2022, savedRent.getRentedFrom().getYear());
         assertEquals(5, savedRent.getRentedFrom().getMonth().getValue());
@@ -49,11 +51,14 @@ public class RentRepositoryTestSuite {
         assertEquals(5, savedRent.getRentedTo().getMonth().getValue());
         assertEquals(29, savedRent.getRentedTo().getDayOfMonth());
 
+        assertEquals(1234, savedRentedCar.getYear());
+
         assertEquals(savedUser.getId(), savedRent.getUser().getId());
 
         //Clean up
         rentRepository.deleteById(savedRent.getId());
         userRepository.deleteById(savedUser.getId());
+        rentedCarRepository.deleteById(savedRentedCar.getId());
     }
 
     @Test
@@ -61,12 +66,14 @@ public class RentRepositoryTestSuite {
 
         //Given
         User user = new User("test name 1", "test surname 1");
+        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, 1235, "test brand", "test model", "test type",rentFrom, rentTo);
+        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
+        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
         rentRepository.save(rent);
 
         //When
@@ -85,6 +92,7 @@ public class RentRepositoryTestSuite {
         //Clean up
         rentRepository.deleteById(updatedRent.getId());
         userRepository.deleteById(savedUser.getId());
+        rentedCarRepository.deleteById(savedRentedCar.getId());
     }
 
     @Test
@@ -92,12 +100,15 @@ public class RentRepositoryTestSuite {
 
         //Given
         User user = new User("test name 1", "test surname 1");
+        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
+
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, 1235, "test brand", "test model", "test type",rentFrom, rentTo);
+        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
+        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
         Rent savedRent = rentRepository.save(rent);
 
         //When
@@ -109,16 +120,18 @@ public class RentRepositoryTestSuite {
 
         //Clean up
         userRepository.deleteById(savedUser.getId());
+        rentedCarRepository.deleteById(savedRentedCar.getId());
     }
 
     @Test
     public void testFullTest(){
         //Given
         User user = new User("test name 1", "test surname 1");
+        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, 1235, "test brand", "test model", "test type",rentFrom, rentTo);
+        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
         Rent savedRent = rentRepository.save(rent);

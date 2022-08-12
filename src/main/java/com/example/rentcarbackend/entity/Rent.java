@@ -25,21 +25,9 @@ public class Rent {
     @JoinColumn(name = "userId")
     private User user;
 
-    @NotNull
-    @Column(name = "year")
-    private int year;
-
-    @NotNull
-    @Column(name = "brand")
-    private String brand;
-
-    @NotNull
-    @Column(name = "model")
-    private String model;
-
-    @NotNull
-    @Column(name = "type")
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "rentedCarId")
+    private RentedCar rentedCar;
 
     @NotNull
     @Column(name = "rentedFrom")
@@ -49,12 +37,9 @@ public class Rent {
     @Column(name = "rentedTo")
     private LocalDate rentedTo;
 
-    public Rent(User user, int year, String brand, String model, String type, LocalDate rentedFrom, LocalDate rentedTo) {
+    public Rent(User user,RentedCar rentedCar, LocalDate rentedFrom, LocalDate rentedTo) {
         this.user = user;
-        this.year = year;
-        this.brand = brand;
-        this.model = model;
-        this.type = type;
+        this.rentedCar = rentedCar;
         this.rentedFrom = rentedFrom;
         this.rentedTo = rentedTo;
     }

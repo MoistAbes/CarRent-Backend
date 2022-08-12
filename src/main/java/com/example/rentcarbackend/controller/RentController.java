@@ -3,6 +3,7 @@ package com.example.rentcarbackend.controller;
 import com.example.rentcarbackend.domain.RentDto;
 import com.example.rentcarbackend.entity.Rent;
 import com.example.rentcarbackend.exception.RentNotFoundException;
+import com.example.rentcarbackend.exception.RentedCarNotFoundException;
 import com.example.rentcarbackend.exception.UserNotFoundException;
 import com.example.rentcarbackend.mapper.RentMapper;
 import com.example.rentcarbackend.service.RentDbService;
@@ -28,20 +29,25 @@ public class RentController {
         return ResponseEntity.ok(mapper.mapToRentDtoList(rents));
     }
 
-    @GetMapping(value = "{rentId}")
+    @GetMapping(value = "/rent/{rentId}")
     public ResponseEntity<RentDto> getRent(@PathVariable Long rentId) throws RentNotFoundException {
         return ResponseEntity.ok(mapper.mapToRentDto(service.getRent(rentId)));
     }
 
+    @GetMapping(value = "/userRents/{userId}")
+    public ResponseEntity<List<RentDto>> getAllUserRents(@PathVariable Long userId){
+        return ResponseEntity.ok(mapper.mapToRentDtoList(service.getAllUserRents(userId)));
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createRent(@RequestBody RentDto rentDto) throws UserNotFoundException {
+    public ResponseEntity<Void> createRent(@RequestBody RentDto rentDto) throws UserNotFoundException, RentedCarNotFoundException {
         Rent rent = mapper.mapToRent(rentDto);
         service.saveRent(rent);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentDto> updateRent(@RequestBody RentDto rentDto) throws UserNotFoundException {
+    public ResponseEntity<RentDto> updateRent(@RequestBody RentDto rentDto) throws UserNotFoundException, RentedCarNotFoundException {
         Rent rent = mapper.mapToRent(rentDto);
         Rent updatedRent = service.saveRent(rent);
         return ResponseEntity.ok(mapper.mapToRentDto(updatedRent));
@@ -52,8 +58,5 @@ public class RentController {
         service.deleteRent(rentId);
         return ResponseEntity.ok().build();
     }
-
-
-
 
 }

@@ -11,10 +11,7 @@ public class RentDto {
 
     private Long id;
     private Long userId;
-    private int year;
-    private String brand;
-    private String model;
-    private String type;
+    private Long rentedCarId;
     private LocalDate rentFrom;
     private LocalDate rentTo;
 
@@ -23,10 +20,6 @@ public class RentDto {
         return "RentDto{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", year=" + year +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", type='" + type + '\'' +
                 ", rentFrom=" + rentFrom +
                 ", rentTo=" + rentTo +
                 '}';

@@ -2,7 +2,9 @@ package com.example.rentcarbackend.mapper;
 
 import com.example.rentcarbackend.domain.RentDto;
 import com.example.rentcarbackend.entity.Rent;
+import com.example.rentcarbackend.exception.RentedCarNotFoundException;
 import com.example.rentcarbackend.exception.UserNotFoundException;
+import com.example.rentcarbackend.service.RentedCarDbService;
 import com.example.rentcarbackend.service.UserDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +18,15 @@ import java.util.stream.Collectors;
 public class RentMapper {
 
     private final UserDbService userDbService;
+    private final RentedCarDbService rentedCarDbService;
 
 
-    public Rent mapToRent(final RentDto rentDto) throws UserNotFoundException {
+    public Rent mapToRent(final RentDto rentDto) throws UserNotFoundException, RentedCarNotFoundException {
 
         return new Rent(
                 rentDto.getId(),
                 userDbService.getUser(rentDto.getUserId()),
-                rentDto.getYear(),
-                rentDto.getBrand(),
-                rentDto.getModel(),
-                rentDto.getType(),
+                rentedCarDbService.getRentedCar(rentDto.getRentedCarId()),
                 rentDto.getRentFrom(),
                 rentDto.getRentTo()
         );
@@ -36,10 +36,7 @@ public class RentMapper {
         return new RentDto(
                 rent.getId(),
                 rent.getUser().getId(),
-                rent.getYear(),
-                rent.getBrand(),
-                rent.getModel(),
-                rent.getType(),
+                rent.getRentedCar().getId(),
                 rent.getRentedFrom(),
                 rent.getRentedTo()
         );
