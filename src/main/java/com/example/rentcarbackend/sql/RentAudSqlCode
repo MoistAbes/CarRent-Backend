@@ -1,0 +1,57 @@
+CREATE TABLE RENTS_AUD (
+                           EVENT_ID INT NOT NULL AUTO_INCREMENT,
+                           EVENT_DATE DATETIME NOT NULL,
+                           EVENT_TYPE VARCHAR(10) DEFAULT NULL,
+                           RENT_ID INT NOT NULL,
+                           OLD_CAR_ID INT,
+                           NEW_CAR_ID INT,
+                           OLD_USER_ID INT,
+                           NEW_USER_ID INT,
+                           OLD_RENT_FROM_DATE DATETIME,
+                           NEW_RENT_FROM_DATE DATETIME,
+                           OLD_RENT_TO_DATE DATETIME,
+                           NEW_RENT_TO_DATE DATETIME,
+                           PRIMARY KEY (EVENT_ID)
+);
+
+
+DELIMITER $$
+
+CREATE TRIGGER RENTS_INSERT AFTER INSERT ON RENTS
+    FOR EACH ROW
+BEGIN
+    INSERT INTO RENTS_AUD (EVENT_DATE, EVENT_TYPE, RENT_ID, NEW_CAR_ID, NEW_USER_ID,
+                           NEW_RENT_FROM_DATE, NEW_RENT_TO_DATE)
+        VALUE(CURTIME(), 'INSERT', NEW.rent_id, NEW.car_id, NEW.user_id, NEW.rented_from,
+              NEW.rented_to);
+END $$;
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER RENTS_DELETE AFTER DELETE ON RENTS
+    FOR EACH ROW
+BEGIN
+    INSERT INTO RENTS_AUD (EVENT_DATE, EVENT_TYPE, RENT_ID)
+        VALUE(CURTIME(), 'DELETE', OLD.RENT_ID);
+END $$;
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER RENTS_UPDATE AFTER UPDATE ON RENTS
+    FOR EACH ROW
+BEGIN
+    INSERT INTO RENTS_AUD (EVENT_DATE, EVENT_TYPE, RENT_ID, NEW_CAR_ID, NEW_USER_ID,
+                           NEW_RENT_FROM_DATE, NEW_RENT_TO_DATE, OLD_CAR_ID, OLD_USER_ID,
+                           OLD_RENT_FROM_DATE, OLD_RENT_TO_DATE)
+        VALUE(CURTIME(), 'UPDATE', OLD.RENT_ID, NEW.car_id, NEW.user_id,
+              NEW.rented_from, NEW.rented_to, OLD.car_id, OLD.user_id,
+              OLD.rented_from, OLD.rented_to);
+END $$;
+
+DELIMITER ;
+

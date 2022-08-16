@@ -1,6 +1,6 @@
 package com.example.rentcarbackend.repository;
 
-import com.example.rentcarbackend.entity.RentedCar;
+import com.example.rentcarbackend.entity.Car;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,15 +10,15 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface RentedCarRepository extends CrudRepository<RentedCar, Long> {
+public interface RentedCarRepository extends CrudRepository<Car, Long> {
 
     @Override
-    List<RentedCar> findAll();
+    List<Car> findAll();
 
     @Override
-    Optional<RentedCar> findById(Long id);
+    Optional<Car> findById(Long id);
 
     @Override
-    RentedCar save(RentedCar rentedCar);
+    Car save(Car car);
 
 }

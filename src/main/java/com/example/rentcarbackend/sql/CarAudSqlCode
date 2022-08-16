@@ -1,0 +1,46 @@
+CREATE TABLE CARS_AUD (
+                           EVENT_ID INT NOT NULL AUTO_INCREMENT,
+                           EVENT_DATE DATETIME NOT NULL,
+                           EVENT_TYPE VARCHAR(10) DEFAULT NULL,
+                           CAR_ID INT NOT NULL,
+                           OLD_BRAND VARCHAR(50),
+                           NEW_BRAND VARCHAR(50),
+                           OLD_MODEL VARCHAR(50),
+                           NEW_MODEL VARCHAR(50),
+                           OLD_TYPE VARCHAR(50),
+                           NEW_TYPE VARCHAR(50),
+                           OLD_YEAR INT,
+                           NEW_YEAR INT,
+                           OLD_STATUS INT,
+                           NEW_STATUS INT,
+                           PRIMARY KEY (EVENT_ID)
+);
+
+
+DELIMITER $$
+
+CREATE TRIGGER CARS_INSERT AFTER INSERT ON cars
+    FOR EACH ROW
+BEGIN
+    INSERT INTO CARS_AUD (EVENT_DATE, EVENT_TYPE, CAR_ID, NEW_BRAND, NEW_MODEL,
+                           NEW_TYPE, NEW_YEAR, NEW_STATUS)
+        VALUE(CURTIME(), 'INSERT', NEW.car_id, NEW.brand, NEW.model, NEW.type,
+              NEW.year, NEW.is_rented);
+END $$;
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER CARS_UPDATE AFTER UPDATE ON cars
+    FOR EACH ROW
+BEGIN
+    INSERT INTO CARS_AUD (EVENT_DATE, EVENT_TYPE, CAR_ID, NEW_BRAND, NEW_MODEL,
+                           NEW_TYPE, NEW_YEAR, NEW_STATUS, OLD_BRAND,
+                           OLD_MODEL, OLD_TYPE, OLD_YEAR, OLD_STATUS)
+        VALUE(CURTIME(), 'UPDATE', OLD.car_id, NEW.brand, NEW.model,
+              NEW.type, NEW.year, NEW.is_rented, OLD.brand,
+              OLD.model, OLD.type, OLD.year, OLD.is_rented);
+END $$;
+
+DELIMITER ;

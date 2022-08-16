@@ -1,0 +1,45 @@
+CREATE TABLE USERS_AUD (
+                           EVENT_ID INT NOT NULL AUTO_INCREMENT,
+                           EVENT_DATE DATETIME NOT NULL,
+                           EVENT_TYPE VARCHAR(10) DEFAULT NULL,
+                           USER_ID INT NOT NULL,
+                           OLD_NAME VARCHAR(50),
+                           NEW_NAME VARCHAR(50),
+                           OLD_SURNAME VARCHAR(50),
+                           NEW_SURNAME VARCHAR(50),
+                           OLD_USERNAME VARCHAR(50),
+                           NEW_USERNAME VARCHAR(50),
+                           OLD_PASSWORD VARCHAR(50),
+                           NEW_PASSWORD VARCHAR(50),
+                           PRIMARY KEY (EVENT_ID)
+);
+
+
+DELIMITER $$
+
+CREATE TRIGGER USERS_INSERT AFTER INSERT ON users
+    FOR EACH ROW
+BEGIN
+    INSERT INTO USERS_AUD (EVENT_DATE, EVENT_TYPE, USER_ID, NEW_NAME, NEW_SURNAME,
+                           NEW_USERNAME, NEW_PASSWORD)
+        VALUE(CURTIME(), 'INSERT', NEW.user_id, NEW.name, NEW.surname, NEW.username,
+              NEW.password);
+END $$;
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER USERS_UPDATE AFTER UPDATE ON users
+    FOR EACH ROW
+BEGIN
+    INSERT INTO USERS_AUD (EVENT_DATE, EVENT_TYPE, USER_ID, NEW_NAME, NEW_SURNAME,
+                           NEW_USERNAME, NEW_PASSWORD, OLD_NAME, OLD_SURNAME,
+                           OLD_USERNAME, OLD_PASSWORD)
+        VALUE(CURTIME(), 'UPDATE', OLD.user_id, NEW.name, NEW.surname,
+              NEW.username, NEW.password, OLD.name, OLD.surname,
+              OLD.username, OLD.password);
+END $$;
+
+DELIMITER ;
