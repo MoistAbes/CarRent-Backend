@@ -1,10 +1,9 @@
 package com.example.rentcarbackend.repository;
 
+import com.example.rentcarbackend.domain.CarRentStatus;
 import com.example.rentcarbackend.entity.Rent;
-import com.example.rentcarbackend.entity.RentedCar;
+import com.example.rentcarbackend.entity.Car;
 import com.example.rentcarbackend.entity.User;
-import com.example.rentcarbackend.service.RentDbService;
-import com.example.rentcarbackend.service.UserDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,22 +22,22 @@ public class RentRepositoryTestSuite {
     RentRepository rentRepository;
 
     @Autowired
-    RentedCarRepository rentedCarRepository;
+    CarRepository carRepository;
 
     @Test
     public void testShouldSaveRent(){
 
         //Given
         User user = new User("test name 1", "test surname 1");
-        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
+        Car car = new Car(1234, "test brand", "test model", "test type", CarRentStatus.RENTED);
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
+        Rent rent = new Rent(user, car, rentFrom, rentTo);
 
         //When
         User savedUser = userRepository.save(user);
-        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
+        Car savedCar = carRepository.save(car);
         Rent savedRent = rentRepository.save(rent);
 
         //Then
@@ -51,14 +50,14 @@ public class RentRepositoryTestSuite {
         assertEquals(5, savedRent.getRentedTo().getMonth().getValue());
         assertEquals(29, savedRent.getRentedTo().getDayOfMonth());
 
-        assertEquals(1234, savedRentedCar.getYear());
+        assertEquals(1234, savedCar.getYear());
 
         assertEquals(savedUser.getId(), savedRent.getUser().getId());
 
         //Clean up
         rentRepository.deleteById(savedRent.getId());
         userRepository.deleteById(savedUser.getId());
-        rentedCarRepository.deleteById(savedRentedCar.getId());
+        carRepository.deleteById(savedCar.getId());
     }
 
     @Test
@@ -66,14 +65,14 @@ public class RentRepositoryTestSuite {
 
         //Given
         User user = new User("test name 1", "test surname 1");
-        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
+        Car car = new Car(1234, "test brand", "test model", "test type", CarRentStatus.RENTED);
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
+        Rent rent = new Rent(user, car, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
-        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
+        Car savedCar = carRepository.save(car);
         rentRepository.save(rent);
 
         //When
@@ -92,7 +91,7 @@ public class RentRepositoryTestSuite {
         //Clean up
         rentRepository.deleteById(updatedRent.getId());
         userRepository.deleteById(savedUser.getId());
-        rentedCarRepository.deleteById(savedRentedCar.getId());
+        carRepository.deleteById(savedCar.getId());
     }
 
     @Test
@@ -100,15 +99,15 @@ public class RentRepositoryTestSuite {
 
         //Given
         User user = new User("test name 1", "test surname 1");
-        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
+        Car car = new Car(1234, "test brand", "test model", "test type", CarRentStatus.RENTED);
 
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
+        Rent rent = new Rent(user, car, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
-        RentedCar savedRentedCar = rentedCarRepository.save(rentedCar);
+        Car savedCar = carRepository.save(car);
         Rent savedRent = rentRepository.save(rent);
 
         //When
@@ -120,21 +119,36 @@ public class RentRepositoryTestSuite {
 
         //Clean up
         userRepository.deleteById(savedUser.getId());
-        rentedCarRepository.deleteById(savedRentedCar.getId());
+        carRepository.deleteById(savedCar.getId());
     }
 
     @Test
-    public void testFullTest(){
+    public void testShouldDeleteRentNotCar(){
+
         //Given
         User user = new User("test name 1", "test surname 1");
-        RentedCar rentedCar = new RentedCar(1234, "test brand", "test model", "test type");
+        Car car = new Car(1234, "test brand", "test model", "test type", CarRentStatus.RENTED);
+
 
         LocalDate rentFrom = LocalDate.of(2022, 5, 23);
         LocalDate rentTo = LocalDate.of(2022, 5, 29);
-        Rent rent = new Rent(user, rentedCar, rentFrom, rentTo);
+        Rent rent = new Rent(user, car, rentFrom, rentTo);
 
         User savedUser = userRepository.save(user);
+        Car savedCar = carRepository.save(car);
         Rent savedRent = rentRepository.save(rent);
+
+        //When
+        rentRepository.deleteById(savedRent.getId());
+
+        //Then
+        assertTrue(carRepository.existsById(savedCar.getId()));
+        assertFalse(rentRepository.existsById(savedRent.getId()));
+
+        //Clean up
+        userRepository.deleteById(savedUser.getId());
+        carRepository.deleteById(savedCar.getId());
     }
+
 
 }

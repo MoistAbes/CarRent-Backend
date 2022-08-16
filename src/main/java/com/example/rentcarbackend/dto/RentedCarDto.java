@@ -1,7 +1,9 @@
-package com.example.rentcarbackend.domain;
+package com.example.rentcarbackend.dto;
 
+import com.example.rentcarbackend.domain.CarRentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -13,5 +15,7 @@ public class RentedCarDto {
     private String model;
     private String type;
     private CarRentStatus status;
+
+
 
 }

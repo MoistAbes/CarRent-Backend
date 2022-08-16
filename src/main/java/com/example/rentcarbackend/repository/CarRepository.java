@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface RentedCarRepository extends CrudRepository<Car, Long> {
+public interface CarRepository extends CrudRepository<Car, Long> {
 
     @Override
     List<Car> findAll();

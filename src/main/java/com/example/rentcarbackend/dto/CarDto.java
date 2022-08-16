@@ -1,4 +1,4 @@
-package com.example.rentcarbackend.domain;
+package com.example.rentcarbackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

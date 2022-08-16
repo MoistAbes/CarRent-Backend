@@ -1,7 +1,7 @@
 package com.example.rentcarbackend.client;
 
-import com.example.rentcarbackend.domain.CarReviewDto;
-import com.example.rentcarbackend.domain.WebValueDto;
+import com.example.rentcarbackend.dto.CarReviewDto;
+import com.example.rentcarbackend.dto.WebValueDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,7 @@ public class WebSearchClient {
 
 
     public CarReviewDto getReview(String search){
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-RapidAPI-Key", webApiKey);
         headers.add("X-RapidAPI-Host", webApiHost);
@@ -63,8 +64,9 @@ public class WebSearchClient {
                     .map(Arrays::asList)
                     .orElse(Collections.emptyList());
 
-            //troche dziwnie to dziala jak bedzie czas to pomyslec nad tym XD
-            return valueDtos.get(0).getReview().get(0);
+            CarReviewDto result = valueDtos.get(0).getReview().get(0);
+
+            return new CarReviewDto(result.getBody());
 
         }catch (RestClientException e){
             LOGGER.error(e.getMessage(), e);

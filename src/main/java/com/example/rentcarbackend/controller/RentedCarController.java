@@ -1,13 +1,11 @@
 package com.example.rentcarbackend.controller;
 
-import com.example.rentcarbackend.domain.RentDto;
-import com.example.rentcarbackend.domain.RentedCarDto;
-import com.example.rentcarbackend.entity.Rent;
-import com.example.rentcarbackend.entity.RentedCar;
-import com.example.rentcarbackend.exception.RentedCarNotFoundException;
-import com.example.rentcarbackend.exception.UserNotFoundException;
+import com.example.rentcarbackend.controller.facede.RentedCarFacade;
+import com.example.rentcarbackend.dto.RentedCarDto;
+import com.example.rentcarbackend.entity.Car;
+import com.example.rentcarbackend.exception.CarNotFoundException;
 import com.example.rentcarbackend.mapper.RentedCarMapper;
-import com.example.rentcarbackend.service.RentedCarDbService;
+import com.example.rentcarbackend.service.CarDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,25 +20,26 @@ import java.util.List;
 public class RentedCarController {
 
 
-    private final RentedCarDbService service;
-    private final RentedCarMapper mapper;
+    private final RentedCarFacade rentedCarFacade;
 
     @GetMapping
     public ResponseEntity<List<RentedCarDto>> getRenterCars(){
-        List<RentedCar> rentedCars = service.getAllRentedCars();
-        return ResponseEntity.ok(mapper.mapToRentedCarDtoList(rentedCars));
+        return ResponseEntity.ok(rentedCarFacade.getAllCars());
     }
 
     @GetMapping(value = "{rentedCarId}")
-    public ResponseEntity<RentedCarDto> getRentedCar(@PathVariable Long rentedCarId) throws RentedCarNotFoundException {
-        return ResponseEntity.ok(mapper.mapToRentedCarDto(service.getRentedCar(rentedCarId)));
+    public ResponseEntity<RentedCarDto> getRentedCar(@PathVariable Long rentedCarId) throws CarNotFoundException {
+        return ResponseEntity.ok(rentedCarFacade.getRentedCar(rentedCarId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> createRentedCar(@RequestBody RentedCarDto rentedCarDto){
-        RentedCar rentedCar = mapper.mapToRentedCar(rentedCarDto);
-        RentedCar savedRentedCar = service.saveRentedCar(rentedCar);
-        return ResponseEntity.ok(savedRentedCar.getId());
+        return ResponseEntity.ok(rentedCarFacade.createRentedCar(rentedCarDto));
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RentedCarDto> updateRentedCarStatus(@RequestBody RentedCarDto rentedCarDto) {
+       return ResponseEntity.ok(rentedCarFacade.updateRentedCarStatus(rentedCarDto));
     }
 
 }

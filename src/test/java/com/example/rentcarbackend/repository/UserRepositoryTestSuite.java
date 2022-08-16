@@ -63,6 +63,6 @@ public class UserRepositoryTestSuite {
         //clean up
         userRepository.deleteById(userId);
 
-
     }
+
 }

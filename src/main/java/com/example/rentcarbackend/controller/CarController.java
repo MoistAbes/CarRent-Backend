@@ -1,8 +1,10 @@
 package com.example.rentcarbackend.controller;
 
 import com.example.rentcarbackend.client.CarClient;
-import com.example.rentcarbackend.domain.CarDto;
+import com.example.rentcarbackend.controller.facede.CarFacade;
+import com.example.rentcarbackend.dto.CarDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,26 +18,26 @@ import java.util.List;
 @CrossOrigin("*")
 public class CarController {
 
-    private final CarClient carClient;
+    private final CarFacade carFacade;
 
     @GetMapping()
-    public List<CarDto> getCars() {
-        return carClient.getCars();
+    public ResponseEntity<List<CarDto>> getCars() {
+        return ResponseEntity.ok(carFacade.getCars());
     }
 
     @GetMapping("brands")
-    public List<String> getBrands(){
-        return carClient.getBrands();
+    public ResponseEntity<List<String>> getBrands(){
+        return ResponseEntity.ok(carFacade.getBrands());
     }
 
     @GetMapping("years")
-    public List<String> getYears(){
-        return carClient.getYears();
+    public ResponseEntity<List<String>> getYears(){
+        return ResponseEntity.ok(carFacade.getYears());
     }
 
     @GetMapping("types")
-    public List<String> getTypes(){
-        return carClient.getTypes();
+    public ResponseEntity<List<String>> getTypes(){
+        return ResponseEntity.ok(carFacade.getTypes());
     }
 
 }

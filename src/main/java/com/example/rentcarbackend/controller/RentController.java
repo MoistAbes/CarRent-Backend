@@ -1,9 +1,10 @@
 package com.example.rentcarbackend.controller;
 
-import com.example.rentcarbackend.domain.RentDto;
+import com.example.rentcarbackend.controller.facede.RentFacade;
+import com.example.rentcarbackend.dto.RentDto;
 import com.example.rentcarbackend.entity.Rent;
 import com.example.rentcarbackend.exception.RentNotFoundException;
-import com.example.rentcarbackend.exception.RentedCarNotFoundException;
+import com.example.rentcarbackend.exception.CarNotFoundException;
 import com.example.rentcarbackend.exception.UserNotFoundException;
 import com.example.rentcarbackend.mapper.RentMapper;
 import com.example.rentcarbackend.service.RentDbService;
@@ -20,42 +21,36 @@ import java.util.List;
 @CrossOrigin("*")
 public class RentController {
 
-    private final RentDbService service;
-    private final RentMapper mapper;
+    private final RentFacade rentFacade;
 
     @GetMapping
     public ResponseEntity<List<RentDto>> getRents(){
-        List<Rent> rents = service.getAllRents();
-        return ResponseEntity.ok(mapper.mapToRentDtoList(rents));
+        return ResponseEntity.ok(rentFacade.getRents());
     }
 
     @GetMapping(value = "/rent/{rentId}")
     public ResponseEntity<RentDto> getRent(@PathVariable Long rentId) throws RentNotFoundException {
-        return ResponseEntity.ok(mapper.mapToRentDto(service.getRent(rentId)));
+        return ResponseEntity.ok(rentFacade.getRent(rentId));
     }
 
     @GetMapping(value = "/userRents/{userId}")
     public ResponseEntity<List<RentDto>> getAllUserRents(@PathVariable Long userId){
-        return ResponseEntity.ok(mapper.mapToRentDtoList(service.getAllUserRents(userId)));
+        return ResponseEntity.ok(rentFacade.getAllUserRents(userId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createRent(@RequestBody RentDto rentDto) throws UserNotFoundException, RentedCarNotFoundException {
-        Rent rent = mapper.mapToRent(rentDto);
-        service.saveRent(rent);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<RentDto> createRent(@RequestBody RentDto rentDto) throws UserNotFoundException, CarNotFoundException {
+       return ResponseEntity.ok(rentFacade.createRent(rentDto));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentDto> updateRent(@RequestBody RentDto rentDto) throws UserNotFoundException, RentedCarNotFoundException {
-        Rent rent = mapper.mapToRent(rentDto);
-        Rent updatedRent = service.saveRent(rent);
-        return ResponseEntity.ok(mapper.mapToRentDto(updatedRent));
+    public ResponseEntity<RentDto> updateRent(@RequestBody RentDto rentDto) throws UserNotFoundException, CarNotFoundException {
+       return ResponseEntity.ok(rentFacade.updateRent(rentDto));
     }
 
     @DeleteMapping(value = "{rentId}")
     public ResponseEntity<Void> deleteRent(@PathVariable Long rentId){
-        service.deleteRent(rentId);
+        rentFacade.deleteRent(rentId);
         return ResponseEntity.ok().build();
     }
 

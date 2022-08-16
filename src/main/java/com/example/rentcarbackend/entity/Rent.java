@@ -26,8 +26,8 @@ public class Rent {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "rentedCarId")
-    private RentedCar rentedCar;
+    @JoinColumn(name = "carId")
+    private Car car;
 
     @NotNull
     @Column(name = "rentedFrom")
@@ -37,12 +37,14 @@ public class Rent {
     @Column(name = "rentedTo")
     private LocalDate rentedTo;
 
-    public Rent(User user,RentedCar rentedCar, LocalDate rentedFrom, LocalDate rentedTo) {
+    public Rent(User user, Car car, LocalDate rentedFrom, LocalDate rentedTo) {
         this.user = user;
-        this.rentedCar = rentedCar;
+        this.car = car;
         this.rentedFrom = rentedFrom;
         this.rentedTo = rentedTo;
     }
+
+
 
     public void setRentedFrom(LocalDate rentedFrom) {
         this.rentedFrom = rentedFrom;

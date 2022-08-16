@@ -1,6 +1,6 @@
 package com.example.rentcarbackend.client;
 
-import com.example.rentcarbackend.domain.CarDto;
+import com.example.rentcarbackend.dto.CarDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

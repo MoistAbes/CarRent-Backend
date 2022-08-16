@@ -1,7 +1,7 @@
 package com.example.rentcarbackend.controller;
 
 import com.example.rentcarbackend.client.WebSearchClient;
-import com.example.rentcarbackend.domain.CarReviewDto;
+import com.example.rentcarbackend.dto.CarReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

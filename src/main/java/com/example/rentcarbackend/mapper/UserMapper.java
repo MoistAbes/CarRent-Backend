@@ -1,10 +1,9 @@
 package com.example.rentcarbackend.mapper;
 
-import com.example.rentcarbackend.domain.UserDto;
+import com.example.rentcarbackend.dto.UserDto;
 import com.example.rentcarbackend.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

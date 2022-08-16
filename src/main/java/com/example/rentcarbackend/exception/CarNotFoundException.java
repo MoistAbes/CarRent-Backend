@@ -1,4 +1,4 @@
 package com.example.rentcarbackend.exception;
 
-public class RentedCarNotFoundException extends Exception{
+public class CarNotFoundException extends Exception{
 }

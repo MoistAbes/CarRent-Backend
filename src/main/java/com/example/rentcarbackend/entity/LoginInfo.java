@@ -30,4 +30,10 @@ public class LoginInfo {
     public LoginInfo(User user) {
         this.user = user;
     }
+
+    public LoginInfo(User user, LocalDateTime logInTime) {
+
+        this.user = user;
+        this.logInTime = logInTime;
+    }
 }

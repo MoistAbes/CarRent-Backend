@@ -38,5 +38,9 @@ public class UserDbService {
         return new User();
     }
 
+    public void deleteUser(Long userId){
+        repository.deleteById(userId);
+    }
+
 
 }

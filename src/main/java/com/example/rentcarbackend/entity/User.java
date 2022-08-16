@@ -33,7 +33,7 @@ public class User {
     private String username;
 
     @NotNull
-    @Column(name = "password")
+    @Column(name = "password", unique = true)
     private String password;
 
     @OneToMany(
@@ -55,12 +55,23 @@ public class User {
         this.surname = surname;
     }
 
+    public User(String name, String surname, String username, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+    }
+
     public User(Long id, String name, String surname, String username, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
+    }
+
+    public void setLoginInfos(List<LoginInfo> loginInfos) {
+        this.loginInfos = loginInfos;
     }
 
     @Override

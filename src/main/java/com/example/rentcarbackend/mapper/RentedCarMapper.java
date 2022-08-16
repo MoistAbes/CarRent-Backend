@@ -1,7 +1,7 @@
 package com.example.rentcarbackend.mapper;
 
-import com.example.rentcarbackend.domain.RentedCarDto;
-import com.example.rentcarbackend.entity.RentedCar;
+import com.example.rentcarbackend.dto.RentedCarDto;
+import com.example.rentcarbackend.entity.Car;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,28 +12,30 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RentedCarMapper {
 
-    public RentedCar mapToRentedCar(RentedCarDto rentedCarDto){
-        return new RentedCar(
+    public Car mapToRentedCar(RentedCarDto rentedCarDto){
+        return new Car(
                 rentedCarDto.getId(),
                 rentedCarDto.getYear(),
                 rentedCarDto.getBrand(),
                 rentedCarDto.getModel(),
-                rentedCarDto.getType()
+                rentedCarDto.getType(),
+                rentedCarDto.getStatus()
         );
     }
 
-    public RentedCarDto mapToRentedCarDto(RentedCar rentedCar){
+    public RentedCarDto mapToRentedCarDto(Car car){
         return new RentedCarDto(
-                rentedCar.getId(),
-                rentedCar.getYear(),
-                rentedCar.getBrand(),
-                rentedCar.getModel(),
-                rentedCar.getType()
+                car.getId(),
+                car.getYear(),
+                car.getBrand(),
+                car.getModel(),
+                car.getType(),
+                car.getStatus()
         );
     }
 
-    public List<RentedCarDto> mapToRentedCarDtoList(List<RentedCar> rentedCars){
-        return rentedCars.stream()
+    public List<RentedCarDto> mapToRentedCarDtoList(List<Car> cars){
+        return cars.stream()
                 .map(this::mapToRentedCarDto)
                 .collect(Collectors.toList());
     }

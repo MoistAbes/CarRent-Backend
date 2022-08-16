@@ -1,9 +1,8 @@
 package com.example.rentcarbackend.mapper;
 
-import com.example.rentcarbackend.domain.LoginInfoDto;
+import com.example.rentcarbackend.dto.LoginInfoDto;
 import com.example.rentcarbackend.entity.LoginInfo;
 import com.example.rentcarbackend.exception.UserNotFoundException;
-import com.example.rentcarbackend.repository.UserRepository;
 import com.example.rentcarbackend.service.UserDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
